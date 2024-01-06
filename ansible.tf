@@ -1,8 +1,13 @@
-# resource "local_file" "ip_address_list" {
-#     filename = "inventory.ini"
-#     content = azurerm_linux_virtual_machine.dev_vm_1.private_ip_address
-# }
+resource "local_file" "create_inventoy_file" {
+  filename = "inventory.ini"
+  content  = <<-EOT
+    [linuxweb]
+    %{for instance in azurerm_linux_virtual_machine.dev_vm_1~}
+    ${instance.private_ip_address} ansible_user=azureadmin
+    %{endfor~}
+  EOT
+}
 
-output "ip_addresses" {
+output "private_ip_addresses" {
   value = [for instance in azurerm_linux_virtual_machine.dev_vm_1 : instance.private_ip_address]
 }

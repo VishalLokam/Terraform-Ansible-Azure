@@ -66,9 +66,39 @@ resource "azurerm_linux_virtual_machine" "ansible_control_node" {
     username   = var.username
     public_key = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
   }
+
+  provisioner "remote-exec" {
+    inline = ["mkdir /home/azureadmin/ansible"]
+
+    connection {
+      type        = "ssh"
+      user        = var.username
+      private_key = data.local_sensitive_file.private_ssh_key_azure.content
+      host        = self.public_ip_address
+    }
+  }
+
+  provisioner "file" {
+    source      = "inventory.ini"
+    destination = "/home/azureadmin/ansible/inventory.ini"
+
+    connection {
+      type        = "ssh"
+      user        = var.username
+      private_key = data.local_sensitive_file.private_ssh_key_azure.content
+      host        = self.public_ip_address
+    }
+
+  }
+
 }
 
 output "control_node_public_ip" {
   value = azurerm_linux_virtual_machine.ansible_control_node.public_ip_address
+}
+
+data "local_sensitive_file" "private_ssh_key_azure" {
+  filename   = "private_ssh_key_azure.pem"
+  depends_on = [azapi_resource_action.ssh_public_key_gen]
 }
 
