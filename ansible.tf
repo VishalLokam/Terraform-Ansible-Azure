@@ -4,5 +4,5 @@
 # }
 
 output "ip_addresses" {
-    value = [ for instance in azurerm_linux_virtual_machine.dev_vm_1: instance.private_ip_address ] 
+  value = [for instance in azurerm_linux_virtual_machine.dev_vm_1 : instance.private_ip_address]
 }
