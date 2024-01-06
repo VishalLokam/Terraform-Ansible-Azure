@@ -119,6 +119,4 @@ resource "azurerm_linux_virtual_machine" "dev_vm_1" {
     public_key = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
   }
 
-
-
 }
