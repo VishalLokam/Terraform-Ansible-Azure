@@ -21,6 +21,6 @@ resource "azapi_resource_action" "ssh_public_key_gen" {
 
 resource "local_sensitive_file" "private_key" {
   content         = jsondecode(azapi_resource_action.ssh_public_key_gen.output).privateKey
-  filename        = "private_ssh_key_azure.pem"
+  filename        = "ansible/private_ssh_key_azure.pem"
   file_permission = 600
 }

@@ -1,6 +1,7 @@
 resource "local_file" "create_inventoy_file" {
-  filename = "inventory.ini"
+  filename = "ansible/inventory.ini"
   content  = <<-EOT
+    ansible_ssh_common_args='-o StrictHostKeyChecking=no'
     [linuxweb]
     %{for instance in azurerm_linux_virtual_machine.dev_vm_1~}
     ${instance.private_ip_address} ansible_user=azureadmin
