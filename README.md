@@ -19,7 +19,22 @@ Running this project will create the following resources on Microsoft Azure:-
     - `Network Interface cards` virtual NICs to be associated with the VMs
     - `Virtual machine extension` runs the shell script to update dependencies and install ansible
 - `Public IP` for the load balancer and the jump box
-- ``  
+
+# Execution Steps
+1. Create a new file `terraform.tfvars` and place the below content in it.
+    ```
+    prefix                  = "<prefix_to_attach_before_each_resource>"
+    location                = "<desired_location>"
+    username                = "<VMs_username>"
+    backend_pool_node_count = <backend_pool_VM_count>
+    ```
+
+2. Run the below commands
+    ```
+    terraform init
+    terraform plan
+    terraform apply -auto-approve
+    ```
 
 
 
