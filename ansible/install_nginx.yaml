@@ -3,12 +3,16 @@
   hosts: linuxweb
   become: true
   tasks:
+    - name: Ping all hosts
+      ping:
+
     - name: Install Nginx
       apt:
         name: nginx
-        state: present
+        state: latest
 
     - name: Start Nginx
       service:
         name: nginx
         state: started
+        enabled: yes

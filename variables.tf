@@ -12,5 +12,10 @@ variable "username" {
   type        = string
   description = "Username for the VM"
   default     = "azureadmin"
+}
 
+variable "backend_pool_node_count" {
+  type        = number
+  description = "Count of VMs that will be created as a backend address pool for the load balancer"
+  default     = 2
 }

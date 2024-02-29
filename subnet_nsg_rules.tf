@@ -36,5 +36,5 @@ resource "azurerm_network_security_rule" "dev_nsg_1_rule-1" {
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
 
-  depends_on = [ azurerm_network_security_group.dev_subnet_1_nsg_1 ]
+  depends_on = [azurerm_network_security_group.dev_subnet_1_nsg_1]
 }

@@ -37,7 +37,7 @@ resource "azurerm_lb_rule" "lbrule" {
 
 # NIC and backend address pool association
 resource "azurerm_network_interface_backend_address_pool_association" "dev_lb_nic_association" {
-  count                   = 3
+  count                   = var.backend_pool_node_count
   network_interface_id    = element(azurerm_network_interface.dev_nics_1.*.id, count.index)
   ip_configuration_name   = "host_nic_config"
   backend_address_pool_id = azurerm_lb_backend_address_pool.dev_lb_backend_pool_1.id

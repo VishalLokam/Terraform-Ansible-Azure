@@ -1,12 +1,12 @@
 data "local_sensitive_file" "private_ssh_key_azure" {
   filename   = "ansible/private_ssh_key_azure.pem"
-  depends_on = [ azurerm_linux_virtual_machine.dev_vm_1 ]
+  depends_on = [azurerm_linux_virtual_machine.dev_vm_1]
 }
 
 
-# Create 3 private virtual machines
+# Create private virtual machines
 resource "azurerm_linux_virtual_machine" "dev_vm_1" {
-  count                 = 3
+  count                 = var.backend_pool_node_count
   name                  = "${var.prefix}_tf_az_vm_${count.index}"
   computer_name         = "devlinuxvm${count.index}"
   location              = var.location
@@ -86,50 +86,7 @@ resource "azurerm_linux_virtual_machine" "ansible_control_node" {
     }
   }
 
-
-  # # Copy cfg file to the control node from host
-  # provisioner "file" {
-  #   source      = "ansible.cfg"
-  #   destination = "/home/azureadmin/ansible/ansible.cfg"
-
-  #   connection {
-  #     type        = "ssh"
-  #     user        = var.username
-  #     private_key = data.local_sensitive_file.private_ssh_key_azure.content
-  #     host        = self.public_ip_address
-  #   }
-  # }
-
-  # # Copy ansible playbook to the control node from host
-  # provisioner "file" {
-  #   source      = "install_nginx.yaml"
-  #   destination = "/home/azureadmin/ansible/install_nginx.yaml"
-
-  #   connection {
-  #     type        = "ssh"
-  #     user        = var.username
-  #     private_key = data.local_sensitive_file.private_ssh_key_azure.content
-  #     host        = self.public_ip_address
-  #   }
-  # }
-
-  # # Execute the ansible playbook
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "cd /home/azureadmin/ansible",
-  #     "ansible-playbook -i inventory.ini install_nginx.yaml"
-  #   ]
-
-  #   connection {
-  #     type        = "ssh"
-  #     user        = var.username
-  #     private_key = data.local_sensitive_file.private_ssh_key_azure.content
-  #     host        = self.public_ip_address
-  #   }
-  # }
-
-  depends_on = [ azurerm_linux_virtual_machine.dev_vm_1 ]
-
+  depends_on = [azurerm_linux_virtual_machine.dev_vm_1]
 }
 
 output "control_node_public_ip" {

@@ -35,7 +35,7 @@ resource "azurerm_virtual_network" "dev_virtual_network_1" {
 
 # Create 3 new NIC for private VM
 resource "azurerm_network_interface" "dev_nics_1" {
-  count               = 3
+  count               = var.backend_pool_node_count
   name                = "${var.prefix}_dev_nic_${count.index}"
   location            = var.location
   resource_group_name = azurerm_resource_group.dev_resource_group.name
