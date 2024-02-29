@@ -1,5 +1,5 @@
 resource "azurerm_virtual_machine_extension" "dev_vm_extension_1" {
-  name                 = "${var.prefix}_vm_extension"
+  name                 = "${var.prefix}_vm_extension_jump_box"
   virtual_machine_id   = azurerm_linux_virtual_machine.ansible_control_node.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"

@@ -6,8 +6,15 @@
     - name: Ping all hosts
       ping:
 
-    - name: Install Nginx
+    - name: Update dependencies
       apt:
+        upgrade: "yes"
+        update_cache: true
+        force_apt_get: true
+        cache_valid_time: 3600
+
+    - name: Install Nginx
+      apt: 
         name: nginx
         state: latest
 
@@ -15,4 +22,3 @@
       service:
         name: nginx
         state: started
-        enabled: yes
